@@ -11,27 +11,27 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [build-dependencies]
-tauri-build = { version = "2.0.1", features = [] }
-dotenv = "0.15"
+tauri-build = { version = "^2.0.1", features = [] }
+dotenv = "^0.15"
 
 [dependencies]
-tauri = { version = "2.1.1", features = ["tray-icon", "image-png", "devtools"] }
-tauri-plugin-shell = "2.0.1"
-tauri-plugin-updater = "2.0"
-tauri-plugin-notification = "2.0"
-serde = { version = "1.0.215", features = ["derive"] }
-serde_json = "1.0.132"
-reqwest = { version = "0.12.26", features = ["json"] }
-tokio = { version = "1", features = ["full"] }
-image = "0.25.9"
-open = "5"
-tiny_http = "0.12"
-url = "2"
-dirs = "6"
-dotenv = "0.15"
-tauri-plugin-single-instance = "2.0"
-tauri-plugin-autostart = "2.0"
-urlencoding = "2.1"
+tauri = { version = "^2.1.1", features = ["tray-icon", "image-png", "devtools"] }
+tauri-plugin-shell = "^2.0.1"
+tauri-plugin-updater = "^2.0"
+tauri-plugin-notification = "^2.0"
+serde = { version = "^1.0.215", features = ["derive"] }
+serde_json = "^1.0.132"
+reqwest = { version = "^0.12.26", features = ["json"] }
+tokio = { version = "^1", features = ["full"] }
+image = "^0.25.9"
+open = "^5"
+tiny_http = "^0.12"
+url = "^2"
+dirs = "^6"
+dotenv = "^0.15"
+tauri-plugin-single-instance = "^2.0"
+tauri-plugin-autostart = "^2.0"
+urlencoding = "^2.1"
 
 [features]
 # by default Tauri runs in production mode
