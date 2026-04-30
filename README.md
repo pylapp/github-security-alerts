@@ -1,3 +1,18 @@
+Disclaimer
+==========
+
+( ˶°ㅁ°) !! **This is a fork of [stephanebouget/github-security-alerts](https://github.com/stephanebouget/github-security-alerts)**
+
+The aim of this project is to submit evolutions.
+This is not the official repository of the app.
+You should not submit bug reports, issues or pull requests to this fork.
+
+Last constributions from here:
+- `The spinner for loading elements does not turn in the expected rotation` ([#34](https://github.com/stephanebouget/github-security-alerts/issues/34), [#35](https://github.com/stephanebouget/github-security-alerts/pull/35))
+- `When I run the app in CLI, I got some cryptic errors about the API without details` ([#32](https://github.com/stephanebouget/github-security-alerts/issues/32), [#33](https://github.com/stephanebouget/github-security-alerts/pull/33))
+- `On macOS, when I click outside the init window, I loose it and cannot get it back until restart of the app` ([#17](https://github.com/stephanebouget/github-security-alerts/issues/17), [#31](https://github.com/stephanebouget/github-security-alerts/pull/31))
+- `Improve DEVELOP file with Markdown rendering, and fix Rust version command` ([#25](https://github.com/stephanebouget/github-security-alerts/issues/25), [#26](https://github.com/stephanebouget/github-security-alerts/pull/26))
+
 # GitHub Security Alerts
 
 👉 **Developers**: See [DEVELOP](./DEVELOP) | [CONTRIBUTING](./CONTRIBUTING)
