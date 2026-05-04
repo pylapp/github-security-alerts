@@ -54,45 +54,81 @@ pub async fn get_github_security_alerts(app: tauri::AppHandle) -> Result<AlertsR
             .await
         {
             Ok(response) => {
-                if response.status() == 422 {
-                    // 422 Unprocessable Entity usually means Dependabot is not enabled
-                    eprintln!("Dependabot not enabled for {}", repo);
+                let status = response.status();
+
+                if status == 422 {
+                    // 422 Unprocessable Entity: Dependabot not enabled on this repo
+                    eprintln!("[{}] Dependabot not enabled (HTTP 422)", repo);
                     repo_alerts.push(RepoAlerts {
                         name: repo,
                         alerts: 0,
                         dependabot_enabled: false,
+                        error: None,
+                    });
+                } else if !status.is_success() {
+                    // Any other non-2xx: capture the raw body for a useful error message
+                    let body = response.text().await.unwrap_or_default();
+                    let msg = format!("HTTP {} — {}", status.as_u16(), body);
+                    eprintln!("[{}] GitHub API error: {}", repo, msg);
+                    repo_alerts.push(RepoAlerts {
+                        name: repo,
+                        alerts: 0,
+                        dependabot_enabled: false,
+                        error: Some(msg),
                     });
                 } else {
-                    match response.json::<Vec<GitHubAlert>>().await {
-                        Ok(alerts) => {
-                            let open_alerts = alerts.iter()
-                                .filter(|a| a.state == "open")
-                                .count();
-                            total_alerts += open_alerts;
-                            repo_alerts.push(RepoAlerts {
-                                name: repo,
-                                alerts: open_alerts,
-                                dependabot_enabled: true,
-                            });
+                    // 2xx: try to parse the JSON body
+                    // Read raw bytes first so we can log them if parsing fails
+                    match response.bytes().await {
+                        Ok(bytes) => {
+                            match serde_json::from_slice::<Vec<GitHubAlert>>(&bytes) {
+                                Ok(alerts) => {
+                                    let open_alerts = alerts.iter()
+                                        .filter(|a| a.state == "open")
+                                        .count();
+                                    total_alerts += open_alerts;
+                                    repo_alerts.push(RepoAlerts {
+                                        name: repo,
+                                        alerts: open_alerts,
+                                        dependabot_enabled: true,
+                                        error: None,
+                                    });
+                                }
+                                Err(e) => {
+                                    // Log the raw body so we can see what GitHub actually returned
+                                    let raw = String::from_utf8_lossy(&bytes);
+                                    let msg = format!("JSON parse error: {} — body: {}", e, raw);
+                                    eprintln!("[{}] {}", repo, msg);
+                                    repo_alerts.push(RepoAlerts {
+                                        name: repo,
+                                        alerts: 0,
+                                        dependabot_enabled: false,
+                                        error: Some(format!("JSON parse error: {}", e)),
+                                    });
+                                }
+                            }
                         }
                         Err(e) => {
-                            eprintln!("Failed to parse alerts for {}: {}", repo, e);
-                            // If parsing fails, assume Dependabot is not enabled
+                            let msg = format!("Error reading response body: {}", e);
+                            eprintln!("[{}] {}", repo, msg);
                             repo_alerts.push(RepoAlerts {
                                 name: repo,
                                 alerts: 0,
                                 dependabot_enabled: false,
+                                error: Some(msg),
                             });
                         }
                     }
                 }
             }
             Err(e) => {
-                eprintln!("Failed to fetch alerts for {}: {}", repo, e);
+                let msg = format!("Network error: {}", e);
+                eprintln!("[{}] {}", repo, msg);
                 repo_alerts.push(RepoAlerts {
                     name: repo,
                     alerts: 0,
                     dependabot_enabled: false,
+                    error: Some(msg),
                 });
             }
         }

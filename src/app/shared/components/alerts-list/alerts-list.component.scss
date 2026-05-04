@@ -179,6 +179,12 @@
       color: colors.$text-secondary;
       cursor: help;
     }
+
+    &.error {
+      background: rgba(colors.$danger-color, 0.1);
+      color: colors.$danger-color;
+      cursor: help;
+    }
   }
 }
 
