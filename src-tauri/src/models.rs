@@ -48,6 +48,7 @@ pub struct RepoAlerts {
     pub name: String,
     pub alerts: usize,
     pub dependabot_enabled: bool,
+    pub error: Option<String>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
