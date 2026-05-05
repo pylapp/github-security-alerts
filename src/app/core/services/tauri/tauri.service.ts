@@ -135,15 +135,6 @@ export class TauriService {
     return invoke<string>('complete_oauth_flow');
   }
 
-  // Window Focus Management (Linux dropdown fix)
-  async pauseAutoHide(): Promise<void> {
-    return invoke('pause_auto_hide');
-  }
-
-  async resumeAutoHide(): Promise<void> {
-    return invoke('resume_auto_hide');
-  }
-
   // Config Management
   async getRefreshInterval(): Promise<number> {
     return invoke<number>('get_refresh_interval');
