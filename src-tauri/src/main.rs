@@ -107,10 +107,10 @@ fn main() {
                 let _ = window.set_focus();
             }
 
-
             let _tray = TrayIconBuilder::with_id("main-tray")
                 .icon(icon)
                 .menu(&menu)
+                .menu_on_left_click(false)
                 .tooltip("GitHub Security Alerts")
                 .on_menu_event(|app, event| {
                     match event.id.as_ref() {
