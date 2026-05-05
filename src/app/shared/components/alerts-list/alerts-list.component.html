@@ -60,13 +60,15 @@
       </div>
       <div
         class="repo-badge"
-        [class.safe]="repo.alerts === 0 && repo.dependabot_enabled"
+        [class.safe]="repo.alerts === 0 && repo.dependabot_enabled && !repo.error"
         [class.danger]="repo.alerts > 0"
-        [class.disabled]="!repo.dependabot_enabled"
-        [attr.title]="!repo.dependabot_enabled ? 'Dependabot not enabled' : null"
+        [class.disabled]="!repo.dependabot_enabled && !repo.error"
+        [class.error]="!!repo.error"
+        [attr.title]="repo.error ? repo.error : (!repo.dependabot_enabled ? 'Dependabot not enabled' : null)"
       >
-        <i *ngIf="repo.alerts === 0 && repo.dependabot_enabled" class="ti ti-check"></i>
-        <i *ngIf="!repo.dependabot_enabled" class="ti ti-minus" style="color: #64748b"></i>
+        <i *ngIf="repo.alerts === 0 && repo.dependabot_enabled && !repo.error" class="ti ti-check"></i>
+        <i *ngIf="!repo.dependabot_enabled && !repo.error" class="ti ti-minus" style="color: #64748b"></i>
+        <i *ngIf="repo.error" class="ti ti-alert-circle"></i>
         <span *ngIf="repo.alerts > 0">{{ repo.alerts }}</span>
       </div>
     </div>

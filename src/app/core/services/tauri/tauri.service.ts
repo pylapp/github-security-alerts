@@ -16,6 +16,7 @@ export interface RepoAlerts {
   name: string;
   alerts: number;
   dependabot_enabled: boolean;
+  error?: string;
 }
 
 export interface AlertsResponse {
