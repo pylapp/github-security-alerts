@@ -79,3 +79,12 @@ pub fn set_macos_window_level(window: &tauri::WebviewWindow) {
 pub fn set_macos_window_level(_window: &tauri::WebviewWindow) {
     // No-op on non-macOS platforms
 }
+
+// ============================================================================
+// Window Control Commands
+// ============================================================================
+
+#[tauri::command]
+pub fn minimize_window(window: tauri::WebviewWindow) -> Result<(), String> {
+    window.hide().map_err(|e| format!("Failed to hide window: {}", e))
+}

@@ -79,4 +79,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
   showSettings(): void {
     this.viewChange.emit('settings');
   }
+
+  async minimizeApp(): Promise<void> {
+    try {
+      const { invoke } = await import('@tauri-apps/api/core');
+      await invoke('minimize_window');
+    } catch (error) {
+      console.error('Failed to minimize window:', error);
+    }
+  }
 }

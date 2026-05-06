@@ -192,7 +192,8 @@ fn main() {
             updater::install_update,
             updater::get_current_version,
             config::get_refresh_interval,
-            config::set_refresh_interval
+            config::set_refresh_interval,
+            window::minimize_window
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
