@@ -144,8 +144,7 @@ jobs:
           tagName: ${{ github.ref_name }}
           releaseName: "Release ${{ github.ref_name }}"
           releaseBody: "New release"
-          releaseDraft: false
-          prerelease: false
+          releaseDraft: true
           includeRelease: true
           includeDebug: false
           includeUpdaterJson: true
